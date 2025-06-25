@@ -51,7 +51,8 @@ async function handleTaskSubmit(taskData) {
     if (taskData.id) {
       // Обновление задачи
       await $fetch(`/api/tasks/${taskData.id}`, {
-        method: 'PUT',
+        // method: 'PUT',
+        method: 'POST',
         body: taskData
       })
     } else {
