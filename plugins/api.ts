@@ -1,28 +1,26 @@
 export default defineNuxtPlugin(() => {
-   const $fetch = globalThis.$fetch.create({
-      async onRequest({ options }) {
-         // Добавляем токен к каждому запросу
+   const fetch = $fetch.create({
+      async onRequest({ request, options }) {
+         // Получаем токен (только на клиенте)
          const token = process.client ? localStorage.getItem('auth_token') : null
 
          if (token) {
-            options.headers = {
-               ...options.headers as unknown as Record<string, string>, // Приводим к нужному типу
-               Authorization: `Bearer ${token}`
-            }
+            // Создаем новый объект заголовков
+            const headers = new Headers(options.headers)
+            headers.set('Authorization', `Bearer ${token}`)
+            options.headers = headers
          }
       },
       onResponseError({ response }) {
-         // Перенаправляем на логин при 401 ошибке
-         if (response?.status === 401 && process.client) {
+         if (process.client && response?.status === 401) {
             navigateTo('/login')
          }
       }
    })
 
-   // Делаем $fetch доступным через useNuxtApp()
    return {
       provide: {
-         api: $fetch
+         api: fetch
       }
    }
 })
