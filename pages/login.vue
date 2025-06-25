@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { $api } = useNuxtApp()
+// const nuxtApp = useNuxtApp()
 const credentials = reactive({
   email: '',
   password: '',
@@ -11,11 +11,11 @@ const error = ref('')
 
 const login = async () => {
   try {
-    const { token } = await $api('/api/auth/login', {
+    const { token } = await $fetch('/api/auth/login', {
       method: 'POST',
       body: {
-        email: form.value.email,
-        password: form.value.password
+        email: credentials.email,
+        password: credentials.password
       }
     })
     

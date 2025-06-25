@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
    if (!token) {
       throw createError({
          statusCode: 401,
-         statusMessage: 'Требуется авторизация'
+         message: 'Требуется авторизация'
       })
    }
 
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
       if (!user) {
          throw createError({
             statusCode: 401,
-            statusMessage: 'Пользователь не найден'
+            message: 'Пользователь не найден'
          })
        }
 
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
       console.error('JWT Error:', err)
       throw createError({
          statusCode: 401,
-         statusMessage: 'Недействительный токен'
+         message: 'Недействительный токен'
       })
    }
 })
