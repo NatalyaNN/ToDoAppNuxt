@@ -12,39 +12,12 @@ export default defineNuxtConfig({
       ]
     }
   },
-  /*
-  auth: {
-    // Включаем глобальный middleware для защиты всех маршрутов
-    enableGlobalAppMiddleware: true,
-    // Базовый URL вашего API (используем mock-сервер для примера)
-    baseURL: 'http://localhost:3001/api/auth'
-  },
-  */
-  /*
-  auth: {
-    // Используем 'session' для Nuxt 3 (вместо 'local' или 'authjs')
-    session: {
-      // Включить сессии (нужно для работы)
-      enable: true,
-    },
-    provider: {
-      type: 'authjs', // Используем 'authjs' как основной провайдер
-    },
-    globalMiddleware: true, // Глобальный middleware для защиты маршрутов
-    baseURL: '/api/auth', // Базовый URL для API аутентификации
-    endpoints: {
-      signIn: { path: '/login', method: 'post' },
-      signOut: { path: '/logout', method: 'post' },
-      signUp: { path: '/register', method: 'post' },
-      getSession: { path: '/user', method: 'get' }
-    },
-    redirect: {
-      login: '/login',   // Куда перенаправлять для входа
-      logout: '/',       // Куда перенаправлять после выхода
-      // home: '/dashboard' // Куда перенаправлять после успешного входа
+  routeRules: {
+    '/tasks/**': {
+      ssr: false,
+      middleware: 'auth' /* Ошибка: Объектный литерал может указывать только известные свойства, но "middleware" не существует в типе "{ cache?: false | { base?: string | undefined; integrity?: any; swr?: boolean | undefined; name?: string | undefined; group?: string | undefined; maxAge?: number | undefined; staleMaxAge?: number | undefined; headersOnly?: boolean | undefined; varies?: (string | undefined)[] | ... 1 more ... | undefined; } | undefin...". Вы хотели записать "appMiddleware"? */
     }
   },
-  */
   modules: [
     '@nuxt/ui',
     '@nuxt/icon',

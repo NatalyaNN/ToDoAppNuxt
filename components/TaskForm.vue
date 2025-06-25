@@ -1,8 +1,6 @@
 <script setup lang="ts">
  import { ref, watch } from 'vue'
 
-//  import { type Task } from "@prisma/client"
-
  // ------------------------------------------------------------
  
  // импортируем схему, типы и методы из vee-validate
@@ -17,39 +15,16 @@ import {
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 
-/*
-// инициализируем Props, чтобы потом отобразить ошибку
-interface Props {
-  error?: string;
-}
-
-defineProps<Props>();
-*/
-
-/*
-// инициализируем emit, чтобы прослушивать submit в компоненте-родителе
-const emit = defineEmits<{
-  (event: "submit", data: CreateTaskSchema): void;
-}>();
-*/
-
 // инициализируем форму vee-validate
 const formVal = useForm({
-  validationSchema: toTypedSchema(createTaskSchema),
-  // title: '',
-  // description: '',
-  // dueDate: '',
-  // isImportant: false,
+  validationSchema: toTypedSchema(createTaskSchema), /* Ошибка: Аргумент типа "ZodObject<{ title: ZodString; userId: ZodInt; dueDate: ZodDate; isImportant: ZodBoolean; isCompleted: ZodBoolean; description: ZodString; }, $strip>" нельзя назначить параметру типа "ZodType<any, ZodTypeDef, any>".
+    В типе "ZodObject<{ title: ZodString; userId: ZodInt; dueDate: ZodDate; isImportant: ZodBoolean; isCompleted: ZodBoolean; description: ZodString; }, $strip>" отсутствуют следующие свойства из типа "ZodType<any, ZodTypeDef, any>": _type, _parse, _getType, _getOrReturnCtx и еще 7. */
 });
-
-/*
-const handleSubmit = form.handleSubmit((data) => {
-  emit("submit", data);
-});
-*/
  
  // ------------------------------------------------------------
  
+ const { $toast } = useNuxtApp()
+
  const props = defineProps({
    editingTask: {
      type: Object,
@@ -95,12 +70,6 @@ const handleSubmit = form.handleSubmit((data) => {
 
 import type { TaskFormRef } from "./types";
 import type { Task } from '@prisma/client';
-
-// defineExpose<TaskInputRef>({
-//   handleResetForm: () => {
-//     form.resetForm();
-//   },
-// });
  
  async function handleSubmit() {
    isSubmitting.value = true
@@ -109,11 +78,19 @@ import type { Task } from '@prisma/client';
        ...form.value,
        id: props.editingTask?.id
      })
-     resetForm()
+     await $fetch('/api/tasks', {
+      method: 'POST',
+      body: form.value
+    })
+    $toast.success('Задача создана!') /* Ошибка: "$toast" относится к типу unknown. */
+    resetForm()
+  } catch (error) {
+    $toast.error(error.data?.message || 'Ошибка создания задачи')
    } finally {
      isSubmitting.value = false
    }
  }
+
  </script>
 
 <template>
