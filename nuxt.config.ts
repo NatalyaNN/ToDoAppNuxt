@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/tasks/**': {
       ssr: false,
-      middleware: 'auth' /* Ошибка: Объектный литерал может указывать только известные свойства, но "middleware" не существует в типе "{ cache?: false | { base?: string | undefined; integrity?: any; swr?: boolean | undefined; name?: string | undefined; group?: string | undefined; maxAge?: number | undefined; staleMaxAge?: number | undefined; headersOnly?: boolean | undefined; varies?: (string | undefined)[] | ... 1 more ... | undefined; } | undefin...". Вы хотели записать "appMiddleware"? */
+      appMiddleware: 'authenticated' /* Ошибка: Объектный литерал может указывать только известные свойства, но "middleware" не существует в типе "{ cache?: false | { base?: string | undefined; integrity?: any; swr?: boolean | undefined; name?: string | undefined; group?: string | undefined; maxAge?: number | undefined; staleMaxAge?: number | undefined; headersOnly?: boolean | undefined; varies?: (string | undefined)[] | ... 1 more ... | undefined; } | undefin...". Вы хотели записать "appMiddleware"? */
     }
   },
   modules: [
@@ -26,7 +26,10 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server',
     routeRules: {
-      '/api/**': { cors: true }
+      '/api/**': {
+        cors: true,
+        headers: { 'Access-Control-Allow-Credentials': 'true' }
+      }
     }
   }
 });

@@ -1,4 +1,3 @@
-// ~/server/middleware/auth.ts
 import { verify } from 'jsonwebtoken'
 import { JWT_SECRET } from '../utils/constants' // Создайте этот файл с константами
 
@@ -27,24 +26,12 @@ export default defineEventHandler(async (event) => {
 })
 
 /*
-export default defineEventHandler(async (event) => {
-   const { auth } = event.context
-   if (!auth?.user?.id) {
-      throw createError({ statusCode: 401, message: "Unauthorized" })
+export default defineNuxtRouteMiddleware(() => {
+   const { loggedIn } = useUserSession()
+
+   // redirect the user to the login screen if they're not authenticated
+   if (!loggedIn.value) {
+      return navigateTo('/login')
    }
-   return auth.user
-})
-*/
-/*
-export default defineEventHandler(async (event) => {
-  const user = await requireAuth(event) // Теперь работает
-  const body = await readBody(event)
-  
-  return prisma.task.create({
-    data: {
-      ...body,
-      userId: user.id
-    }
-  })
 })
 */

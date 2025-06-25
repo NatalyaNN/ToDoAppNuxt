@@ -4,6 +4,8 @@ const credentials = reactive({
   email: '',
   password: '',
 })
+
+/*
 async function login() {
   $fetch('/api/login', {
     method: 'POST',
@@ -15,6 +17,28 @@ async function login() {
     await navigateTo('/')
   })
   .catch(() => alert('Bad credentials'))
+}
+*/
+
+const email = ref('')
+const password = ref('')
+const error = ref('')
+
+async function login() {
+  try {
+    const { user, token } = await $fetch('/api/auth/login', {
+      method: 'POST',
+      body: { email: email.value, password: password.value }
+    })
+    
+    // Сохраняем токен в localStorage (опционально)
+    localStorage.setItem('auth_token', token)
+    
+    // Перенаправляем на защищённую страницу
+    await navigateTo('/tasks')
+  } catch (err) {
+    error.value = err.data?.statusMessage || 'Ошибка входа'
+  }
 }
 </script>
 
