@@ -23,4 +23,11 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     'nuxt-auth-utils',
   ],
+  nitro: {
+    preset: 'node-server',
+    routeRules: {
+      '/api/**': { cors: true }
+    }
+  }
 });
+

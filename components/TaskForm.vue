@@ -70,7 +70,7 @@ const formVal = useForm({
 
 import type { TaskFormRef } from "./types";
 import type { Task } from '@prisma/client';
- 
+
  async function handleSubmit() {
    isSubmitting.value = true
    try {
@@ -82,10 +82,12 @@ import type { Task } from '@prisma/client';
       method: 'POST',
       body: form.value
     })
-    $toast.success('Задача создана!') /* Ошибка: "$toast" относится к типу unknown. */
+    // toasts.success('Задача создана!') /* Ошибка: "$toast" относится к типу unknown. */
+    console.log('Задача создана!') /* Ошибка: "$toast" относится к типу unknown. */
     resetForm()
   } catch (error) {
-    $toast.error(error.data?.message || 'Ошибка создания задачи')
+    // toasts.error(error.data?.message || 'Ошибка создания задачи')
+    console.log(error.data?.message || 'Ошибка создания задачи')
    } finally {
      isSubmitting.value = false
    }
