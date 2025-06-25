@@ -1,5 +1,5 @@
 // import {z} from 'zod'
-import { sign } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { JWT_SECRET, TOKEN_EXPIRES } from '~/server/utils/constants'
 
 import { PrismaClient } from '@prisma/client'
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
    }
 
    // 2. Генерируем токен
-   const token = sign(
+   const token = jwt.sign(
       { id: user.id, email: user.email },
       JWT_SECRET,
       { expiresIn: TOKEN_EXPIRES }

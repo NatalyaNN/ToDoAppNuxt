@@ -1,5 +1,5 @@
 // ~/server/middleware/auth.ts
-import { verify } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../utils/constants' // Создайте этот файл с константами
 
 export default defineEventHandler(async (event) => {
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
    // 2. Проверяем токен
    try {
-      const decoded = verify(token, JWT_SECRET)
+      const decoded = jwt.verify(token, JWT_SECRET)
       event.context.auth = { user: decoded }
    } catch (err) {
       throw createError({
