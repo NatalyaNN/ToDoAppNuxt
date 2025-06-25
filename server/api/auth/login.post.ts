@@ -2,15 +2,12 @@
 // import jwt from 'jsonwebtoken'
 // import { JWT_SECRET, TOKEN_EXPIRES } from '~/server/utils/constants'
 
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-
-// ------------------------------------------------------------
-
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../../utils/constants'
 import { comparePasswords } from '../../utils/password'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
    const body = await readBody(event)
@@ -30,7 +27,10 @@ export default defineEventHandler(async (event) => {
 
    // 3. Генерируем токен
    const token = jwt.sign(
-      { id: user.id, email: user.email },
+      {
+         id: user.id,
+         email: user.email
+      },
       JWT_SECRET,
       { expiresIn: '2h' }
    )
@@ -40,7 +40,8 @@ export default defineEventHandler(async (event) => {
       httpOnly: true,
       maxAge: 7200, // 2 часа
       sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production'
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
    })
 
    return {

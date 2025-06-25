@@ -1,43 +1,31 @@
 <script setup lang="ts">
-const { loggedIn, user, fetch: refreshSession } = useUserSession()
+const { $api } = useNuxtApp()
 const credentials = reactive({
   email: '',
   password: '',
 })
 
-/*
-async function login() {
-  $fetch('/api/login', {
-    method: 'POST',
-    body: credentials
-  })
-  .then(async () => {
-    // Refresh the session on client-side and redirect to the home page
-    await refreshSession()
-    await navigateTo('/')
-  })
-  .catch(() => alert('Bad credentials'))
-}
-*/
-
 const email = ref('')
 const password = ref('')
 const error = ref('')
 
-async function login() {
+const login = async () => {
   try {
-    const { user, token } = await $fetch('/api/auth/login', {
+    const { token } = await $api('/api/auth/login', {
       method: 'POST',
-      body: { email: email.value, password: password.value }
+      body: {
+        email: form.value.email,
+        password: form.value.password
+      }
     })
     
-    // Сохраняем токен в localStorage (опционально)
+    // Сохраняем токен в localStorage
     localStorage.setItem('auth_token', token)
     
-    // Перенаправляем на защищённую страницу
+    // Перенаправляем на защищенную страницу
     await navigateTo('/tasks')
-  } catch (err) {
-    error.value = err.data?.statusMessage || 'Ошибка входа'
+  } catch (error) {
+    console.error('Login failed:', error)
   }
 }
 </script>

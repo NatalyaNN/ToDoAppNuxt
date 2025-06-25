@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../utils/constants'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
    // Пропускаем аутентификацию для публичных эндпоинтов
@@ -8,7 +11,7 @@ export default defineEventHandler(async (event) => {
 
    // Получаем токен из cookies или headers
    const token = getCookie(event, 'auth_token') ||
-      getHeader(event, 'Authorization')?.replace('Bearer ', '')
+      getHeader(event, 'Authorization')?.replace('Bearer ', '').trim()
 
    if (!token) {
       throw createError({
@@ -19,11 +22,24 @@ export default defineEventHandler(async (event) => {
 
    try {
       // Проверяем и декодируем токен
-      const decoded = jwt.verify(token, JWT_SECRET) as { id: number }
+      const decoded = jwt.verify(token, JWT_SECRET) as { id: number, email: string }
+
+      const user = await prisma.user.findUnique({
+         where: { id: decoded.id },
+         select: { id: true, email: true, name: true }
+      })
+
+      if (!user) {
+         throw createError({
+            statusCode: 401,
+            statusMessage: 'Пользователь не найден'
+         })
+       }
 
       // Добавляем пользователя в контекст
-      event.context.auth = { user: { id: decoded.id } }
+      event.context.auth = { user }
    } catch (err) {
+      console.error('JWT Error:', err)
       throw createError({
          statusCode: 401,
          statusMessage: 'Недействительный токен'
