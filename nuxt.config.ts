@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/icon',
     'nuxt-auth-utils',
+    '@pinia/nuxt',
   ],
   nitro: {
     preset: 'node-server',
