@@ -1,3 +1,7 @@
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
 export default defineEventHandler(async (event) => {
    const session = await requireAuth(event) // Ваш auth-хелпер /* Ошибка: Не удается найти имя "requireAuth". */
    const body = await readBody(event)

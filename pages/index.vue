@@ -22,7 +22,7 @@ async function logout() {
           </div>
           <div class="authorize">
             <!-- <p>Привет, {{ user.name }}</p> -->
-            <p>Привет, {{ user.name }}</p>
+            <p>Привет, {{ user.name ? user.name : 'Гость'}}!</p>
             <button @click="logout">Выйти</button>
           </div>
         </div>

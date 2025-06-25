@@ -1,5 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import type { Task } from '~/types/task'
+
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 // Создание задачи для пользователя с userId=1
 await prisma.task.create({
@@ -15,7 +20,7 @@ const tasks = await prisma.user.findUnique({
   include: { tasks: true }
 });
 
-const { data: task, status } = await useFetch<Task[]>("/", { /* Ошибка: Выражение доступа к элементу должно принимать аргумент */
+const { data: task, status } = await useFetch<Task[]>("/api/tasks", { /* Ошибка: Выражение доступа к элементу должно принимать аргумент */
   method: "GET",
   default: () => [],
 });

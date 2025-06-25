@@ -1,3 +1,3 @@
 export interface TaskFormRef {
-   handleResetForm: () => void;
- }
+  handleResetForm: () => void;
+}
