@@ -2,7 +2,8 @@ export interface Task {
    id: number
    title: string
    description?: string | null
-   dueDate?: Date | null
+   isImportant: boolean
+   dueDate?: (Date | null) | undefined
    isCompleted: boolean
    userId: number
    createdAt: Date

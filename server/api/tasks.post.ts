@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, message: "Title is required" })
    }
 
-   return prisma.task.create({ /* Ошибка: Не удается найти имя "prisma". */
+   return prisma.task.create({
       data: {
          title: body.title,
          description: body.description,

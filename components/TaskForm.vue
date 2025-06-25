@@ -1,7 +1,5 @@
 <script setup lang="ts">
  import { ref, watch } from 'vue'
-
- // ------------------------------------------------------------
  
  // импортируем схему, типы и методы из vee-validate
 import {
@@ -10,18 +8,13 @@ import {
   type CreateTaskSchema
 } from "~/schemas/task";
 
-// import type { ThoughtInputRef } from "./props";
-
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 
 // инициализируем форму vee-validate
 const formVal = useForm({
-  validationSchema: toTypedSchema(createTaskSchema), /* Ошибка: Аргумент типа "ZodObject<{ title: ZodString; userId: ZodInt; dueDate: ZodDate; isImportant: ZodBoolean; isCompleted: ZodBoolean; description: ZodString; }, $strip>" нельзя назначить параметру типа "ZodType<any, ZodTypeDef, any>".
-    В типе "ZodObject<{ title: ZodString; userId: ZodInt; dueDate: ZodDate; isImportant: ZodBoolean; isCompleted: ZodBoolean; description: ZodString; }, $strip>" отсутствуют следующие свойства из типа "ZodType<any, ZodTypeDef, any>": _type, _parse, _getType, _getOrReturnCtx и еще 7. */
+  validationSchema: toTypedSchema(createTaskSchema),
 });
- 
- // ------------------------------------------------------------
  
  const { $toast } = useNuxtApp()
 
@@ -68,9 +61,6 @@ const formVal = useForm({
    }
  }
 
-import type { TaskFormRef } from "./types";
-import type { Task } from '@prisma/client';
-
  async function handleSubmit() {
    isSubmitting.value = true
    try {
@@ -82,11 +72,9 @@ import type { Task } from '@prisma/client';
       method: 'POST',
       body: form.value
     })
-    // toasts.success('Задача создана!') /* Ошибка: "$toast" относится к типу unknown. */
-    console.log('Задача создана!') /* Ошибка: "$toast" относится к типу unknown. */
+    console.log('Задача создана!')
     resetForm()
-  } catch (error) {
-    // toasts.error(error.data?.message || 'Ошибка создания задачи')
+  } catch (error: any) {
     console.log(error.data?.message || 'Ошибка создания задачи')
    } finally {
      isSubmitting.value = false
