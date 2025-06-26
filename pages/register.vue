@@ -1,3 +1,52 @@
+<script>
+ export default {
+   auth: 'guest', // Доступно только для неавторизованных
+   data() {
+     return {
+       form: {
+         name: '',
+         email: '',
+         password: '',
+         password_confirmation: ''
+       },
+       loading: false,
+       error: null
+     }
+   },
+   methods: {
+     async register() {
+       if (this.form.password !== this.form.password_confirmation) {
+         this.error = 'Пароли не совпадают'
+         return
+       }
+       
+       this.loading = true
+       this.error = null
+       
+       try {
+         await this.$axios.post('/api/auth/register', this.form)
+         
+         // Автоматический вход после регистрации
+         await this.$auth.loginWith('local', {
+           data: {
+             email: this.form.email,
+             password: this.form.password
+           }
+         })
+         
+         // Перенаправление после успешной регистрации
+         this.$router.push('/dashboard')
+         
+       } catch (err) {
+         this.error = err.response?.data?.message || 'Ошибка регистрации'
+       } finally {
+         this.loading = false
+       }
+     }
+   }
+ }
+ </script>
+
 <template>
    <div class="register-container">
      <h1 class="text-xl font-semibold mb-4">Регистрация</h1>
@@ -34,56 +83,6 @@
      </form>
    </div>
  </template>
- 
- <script>
- export default {
-   auth: 'guest', // Доступно только для неавторизованных
-   data() {
-     return {
-       form: {
-         name: '',
-         email: '',
-         password: '',
-         password_confirmation: ''
-       },
-       loading: false,
-       error: null
-     }
-   },
-   methods: {
-     async register() {
-       if (this.form.password !== this.form.password_confirmation) {
-         this.error = 'Пароли не совпадают'
-         return
-       }
-       
-       this.loading = true
-       this.error = null
-       
-       try {
-         // Используем $auth для регистрации
-         await this.$axios.post('/api/auth/register', this.form)
-         
-         // Автоматический вход после регистрации
-         await this.$auth.loginWith('local', {
-           data: {
-             email: this.form.email,
-             password: this.form.password
-           }
-         })
-         
-         // Перенаправление после успешной регистрации
-         this.$router.push('/dashboard')
-         
-       } catch (err) {
-         this.error = err.response?.data?.message || 'Ошибка регистрации'
-       } finally {
-         this.loading = false
-       }
-     }
-   }
- }
- </script>
  
  <style scoped>
  .register-container {

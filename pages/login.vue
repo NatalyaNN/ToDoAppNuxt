@@ -21,6 +21,7 @@ const login = async () => {
     
     // Сохраняем токен в localStorage
     localStorage.setItem('auth_token', token)
+    useCookie('auth_token').value = token
     
     // Перенаправляем на защищенную страницу
     await navigateTo('/tasks')
@@ -86,5 +87,6 @@ const login = async () => {
    border-radius: 6px;
    color: #F7F7F7;
    margin: 10px 0;
+   cursor: pointer;
 }
 </style>

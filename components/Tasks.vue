@@ -71,7 +71,7 @@ async function handleTaskSubmit(taskData: Task) {
   <div class="container mx-auto px-4 py-8">
     <button 
       @click="showForm = true"
-      class="mb-6 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+      class="my-4 px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700"
     >
       + Добавить задачу
     </button>

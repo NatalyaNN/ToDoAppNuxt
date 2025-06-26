@@ -21,8 +21,7 @@ async function logout() {
             <p class="logo-text">ToDo</p>
           </div>
           <div class="authorize">
-            <!-- <p>Привет, {{ user.name }}</p> -->
-            <p>Привет, {{ user.name ? user.name : 'Гость'}}!</p>
+            <p>Привет, {{ user.name }}!</p>
             <button @click="logout">Выйти</button>
           </div>
         </div>
@@ -31,22 +30,8 @@ async function logout() {
       <section>
         <div class="container">
          <Tasks />
-          <!-- <div v-if="signedIn">
-            <Tasks />
-          </div>
-          <div v-else class="no-tasks-block">
-            <img src="~/assets/img/Empty.png" alt="No tasks yet...">
-            <p>Пусто...</p>
-          </div> -->
         </div>
       </section>
-
-      <footer>
-        <div class="container">
-          <AddTask/>
-            
-        </div>
-      </footer>
     </div>
 </template>
 

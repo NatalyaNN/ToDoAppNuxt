@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
    // Пропускаем аутентификацию для публичных эндпоинтов
-   const publicRoutes = ['/api/auth/login', '/api/auth/register']
+   const publicRoutes = ['/api/auth/login', '/api/auth/register', '/', '/login', '/register', '/api/__nuxt_error']
    if (publicRoutes.includes(event.path)) return
 
    // Получаем токен из cookies или headers

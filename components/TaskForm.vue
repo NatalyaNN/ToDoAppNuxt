@@ -2,11 +2,7 @@
  import { ref, watch } from 'vue'
  
  // импортируем схему, типы и методы из vee-validate
-import {
-  CREATE_TASK_MAX_LENGTH,
-  createTaskSchema,
-  type CreateTaskSchema
-} from "~/schemas/task";
+import { createTaskSchema } from "~/schemas/task";
 
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
