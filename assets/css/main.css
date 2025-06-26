@@ -1,23 +1,8 @@
-/* body {
-   background: #8ea5f0;
-} */
-
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-/* @font-face {
-   font-family: 'FarAwayGalaxy';
-   src: url('/fonts/FarAwayGalaxy.woff') format('woff');
-   font-weight: normal;
-   font-style: normal;
-   font-display: swap;
-} */
-
 @theme {
   --font-display: "Roboto", "sans-serif";
-  /* font-optical-sizing: auto; */
-  /* font-weight: <weight>; */
-  /* font-style: normal; */
 }
 
 a {
@@ -46,7 +31,6 @@ a :visited {
    display: flex;
    justify-content: space-between;
    align-items: center;
-   /* font-family: Arial, Helvetica, sans-serif; */
    color: #F7F7F7;
 }
 
